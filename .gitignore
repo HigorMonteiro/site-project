@@ -47,6 +47,9 @@ coverage/
 # Pytest
 .pytest_cache/
 
+# Ruff
+.ruff_cache/
+
 # Miscellaneous
 *.swp
 *~
