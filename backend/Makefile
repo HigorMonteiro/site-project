@@ -14,6 +14,4 @@ test:
 
 lint:
 	@echo "Running linters..."
-	@isort .
-	@ruff check . --config pyproject.toml
-	@black . --check 
+	@bash scripts/lint.sh

@@ -46,6 +46,9 @@ coverage/
 
 # Pytest
 .pytest_cache/
+.pytest_history
+.tox/
+htmlcov/
 
 # Ruff
 .ruff_cache/
@@ -57,3 +60,4 @@ coverage/
 .project
 *.sublime-project
 *.sublime-workspace
+
