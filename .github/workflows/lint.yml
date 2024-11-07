@@ -1,4 +1,4 @@
-name: Lint
+name: Lint backend
 
 on:
   pull_request:
@@ -24,7 +24,7 @@ jobs:
           poetry-version: '1.8.3'
 
       - name: Install dependencies
-        run: poetry install
+        run: cd backend && poetry install
 
       - name: Lint
-        run: ./scripts/lint.sh
+        run: cd backend && ./scripts/lint.sh
