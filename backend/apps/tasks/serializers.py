@@ -4,6 +4,12 @@ from rest_framework import serializers
 from .models import Category, Task
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username")
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -15,9 +21,7 @@ class TaskSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(), required=False, allow_null=True
     )
-    shared_with = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), many=True, required=False
-    )
+    shared_with = UserSerializer(many=True, required=False)
 
     class Meta:
 
