@@ -30,5 +30,5 @@ A web application for managing tasks, built with Next.js, TypeScript, Tailwind C
 ### Installation
 1. **Clone the repository**:
    ```bash
-   git clone HigorMonteiro/site-project.git
+   git clone git@github.com:HigorMonteiro/site-project.git
    cd site-project
