@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from apps.core.models import BaseModel
 
-class Category(models.Model):
+
+class Category(BaseModel):
     name = models.CharField(max_length=100, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
 
     def __str__(self):
@@ -18,7 +19,7 @@ class Category(models.Model):
         ordering = ["name"]
 
 
-class Task(models.Model):
+class Task(BaseModel):
     STATUS_CHOICES = [
         ("PENDING", "Pending"),
         ("COMPLETED", "Completed"),
@@ -26,8 +27,6 @@ class Task(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     due_date = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="PENDING")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks")
@@ -37,7 +36,7 @@ class Task(models.Model):
     shared_with = models.ManyToManyField(User, blank=True, related_name="shared_tasks")
 
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.user.username}"
 
     def mark_as_completed(self):
         if self.status == "COMPLETED":
