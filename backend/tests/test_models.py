@@ -26,7 +26,7 @@ class TestTaskModel:
     def test_task_creation(self, user):
         task = baker.make(Task, user=user)
         assert Task.objects.count() == 1
-        assert str(task) == task.title
+        assert str(task) == f"{task.title} - {user.username}"
 
     def test_mark_as_completed(self, task):
         initial_updated_at = task.updated_at

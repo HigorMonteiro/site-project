@@ -1,6 +1,6 @@
 .PHONY: start check-migrations test lint
 
-start:
+run:
 	@echo "Starting the project..."
 	@python manage.py runserver
 
