@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -43,7 +43,7 @@ class Task(models.Model):
         if self.status == "COMPLETED":
             raise ValidationError("Task is already completed")
         self.status = "COMPLETED"
-        self.updated_at = timezone.now()
+        self.updated_at = datetime.now()
         self.save()
 
     class Meta:
