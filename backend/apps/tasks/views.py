@@ -3,6 +3,7 @@ from rest_framework.response import Response
 
 from .filters import TaskFilter
 from .models import Category, Task
+from .pagination import StandardResultsSetPagination
 from .serializers import CategorySerializer, TaskSerializer
 from .services import TaskService
 
@@ -11,6 +12,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
     filterset_class = TaskFilter
 
     def get_queryset(self):

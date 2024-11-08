@@ -136,5 +136,5 @@ class TestTaskViewSet:
         url = reverse('task-list')
         response = api_client.get(url)
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
-        assert response.data[0]['title'] == task.title
+        assert len(response.data["results"]) == 1
+        assert response.data["results"][0]['title'] == task.title
