@@ -33,17 +33,12 @@ class TaskViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
-        if instance.user != self.request.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
         task = TaskService.update_task(instance.id, **serializer.validated_data)
         serializer = self.get_serializer(task)
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-
-        if instance.user != self.request.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
 
         TaskService.delete_task(instance.id)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -57,15 +52,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
         return Category.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-
         serializer.save(user=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
 
         instance = self.get_object()
 
-        if instance.user != request.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
         self.perform_destroy(instance)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

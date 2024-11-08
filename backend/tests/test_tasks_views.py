@@ -7,7 +7,7 @@ from django.urls import reverse
 from apps.tasks.services import TaskService
 from model_bakery import baker
 from django.contrib.auth.models import User
-from apps.tasks.models import Task, Category
+from apps.tasks.models import Task
 
 
 @pytest.mark.django_db
@@ -15,18 +15,6 @@ class TestTaskViewSet:
     @pytest.fixture
     def api_client(self):
         return APIClient()
-
-    @pytest.fixture
-    def user(self):
-        return baker.make(User)
-
-    @pytest.fixture
-    def category(self, user):
-        return baker.make(Category, user=user)
-
-    @pytest.fixture
-    def task(self, user, category):
-        return baker.make(Task, user=user, category=category)
 
     def test_create_task(self, api_client, user, category):
         api_client.force_authenticate(user=user)
@@ -90,7 +78,7 @@ class TestTaskViewSet:
             "title": "Updated Task",
             "description": "Updated description",
             "due_date": "2024-06-10",
-            "category": task.category.id,
+            "category": task.category,
             "shared_with": []
         }
         response = api_client.put(url, data, format='json')
@@ -105,12 +93,34 @@ class TestTaskViewSet:
         with pytest.raises(ValidationError, match="Task does not exist."):
             TaskService.update_task(task_id=1, title="Updated Task")
 
+    def test_update_task_does_not_exist_to_user(self, api_client, user, category):
+        task = baker.make(Task, user=baker.make(User), category=category)
+        api_client.force_authenticate(user=user)
+        url = reverse('task-detail', args=[task.id])
+        data = {
+            "title": "Updated Task",
+            "description": "Updated description",
+            "due_date": "2024-06-10",
+            "category": category.id,
+            "shared_with": []
+        }
+
+        response = api_client.put(url, data, format='json')
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
     def test_delete_task(self, api_client, user, task):
         api_client.force_authenticate(user=user)
         url = reverse('task-detail', args=[task.id])
         response = api_client.delete(url)
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert Task.objects.count() == 0
+
+    def test_delete_task_user_forbidden(self, api_client, user):
+        task = baker.make(Task, user=baker.make(User))
+        api_client.force_authenticate(user=user)
+        url = reverse('task-detail', args=[task.id])
+        response = api_client.delete(url)
+        assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_delete_task_does_not_exist(self):
         with pytest.raises(ValidationError, match="Task does not exist."):
