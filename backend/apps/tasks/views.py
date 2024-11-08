@@ -1,6 +1,7 @@
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 
+from .filters import TaskFilter
 from .models import Category, Task
 from .serializers import CategorySerializer, TaskSerializer
 from .services import TaskService
@@ -10,6 +11,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filterset_class = TaskFilter
 
     def get_queryset(self):
 
