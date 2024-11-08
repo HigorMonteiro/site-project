@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from apps.tasks.models import Task
 from model_bakery import baker
 
-from apps.tasks.services import create_task
+from apps.tasks.services import TaskService
 
 
 @pytest.mark.django_db
@@ -17,7 +17,7 @@ class TestServices:
 
         due_date = datetime.date(2024, 5, 10)
 
-        task = create_task(
+        task = TaskService.create_task(
             user,
             "Service Task",
             due_date=due_date,
@@ -36,7 +36,7 @@ class TestServices:
 
     def test_create_task_service_with_self(self, user, category):
         with pytest.raises(ValidationError, match="You cannot share a task with yourself."):
-            create_task(
+            TaskService.create_task(
                 user,
                 "Service Task",
                 description="New task",
@@ -47,7 +47,7 @@ class TestServices:
 
     def test_create_task_service_with_self_in_shared(self, user, category):
         with pytest.raises(ValidationError, match="You cannot share a task with yourself."):
-            create_task(
+            TaskService.create_task(
                 user,
                 "Service Task",
                 description="New task",
