@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-wb@#zi9y=agnu^(rtbvnmng%)!+m!py1m1a5afgj311d1k*x+w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,6 +40,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "rest_framework_simplejwt",
+    "rest_framework.authtoken",
+    "dj_rest_auth.registration",
+    "dj_rest_auth",
+    "corsheaders",
     "apps.tasks",
 ]
 
@@ -51,6 +60,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+MIDDLEWARE += ["allauth.account.middleware.AccountMiddleware"]
 
 ROOT_URLCONF = "settings.urls"
 
@@ -125,8 +136,52 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa E501
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
+
 REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ),
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+
+# djangorestframework-simplejwt
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+# dj-rest-auth
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "_auth",
+    "JWT_AUTH_REFRESH_COOKIE": "_refresh",
+    "JWT_AUTH_HTTPONLY": False,
 }
