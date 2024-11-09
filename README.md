@@ -24,7 +24,7 @@ A web application for managing tasks, built with Next.js, TypeScript, Tailwind C
 
 ### Prerequisites
 - Node.js and npm
-- Python and pip
+- Python and poetry
 - Docker and Docker Compose
 
 ### Installation
