@@ -38,7 +38,7 @@ export function SignUp() {
         signUpForm.parse(data)
         return { values: data, errors: {} }
       } catch (error) {
-        return { values: {}, errors: error.formErrors.fieldErrors }
+        return { values: {}, errors: (error as z.ZodError).formErrors.fieldErrors }
       }
     },
   })
