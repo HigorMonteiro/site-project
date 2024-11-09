@@ -16,6 +16,11 @@ lint:
 	@echo "Running linters..."
 	@bash scripts/lint.sh
 
+db:
+	@echo "Migrating the database..."
+	@python manage.py makemigrations
+	@python manage.py migrate
+
 populate-db:
 	@echo "Clean the database..."
 	@python manage.py flush --no-input
