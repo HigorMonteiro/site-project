@@ -3,10 +3,12 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Eye, EyeOff } from 'lucide-react'
 
 const signInForm = z.object({
   email: z.string().email(),
@@ -21,6 +23,12 @@ export function SignIn() {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SignInForm>()
+
+  const [showPassword, setShowPassword] = useState(false)
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState)
+  }
 
   async function handleSignIn(data: SignInForm) {
     try {
@@ -58,12 +66,25 @@ export function SignIn() {
             <div className="space-y-2">
               <Label htmlFor="email">Seu e-mail</Label>
               <Input id="email" type="email" {...register('email')} />
-              <Label htmlFor="email">Sua senha</Label>
-              <Input id="password" type="password" {...register('password')} />
+              <Label htmlFor="password">Sua senha</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password')}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center px-2"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
             </div>
 
             <Button disabled={isSubmitting} className="w-full" type="submit">
-               Acessar Lista
+              Acessar Lista
             </Button>
           </form>
         </div>
