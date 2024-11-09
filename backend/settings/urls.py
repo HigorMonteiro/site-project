@@ -28,4 +28,7 @@ router.register(r"categories", CategoryViewSet, basename="category")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
+    # Auth
+    path("api/", include("dj_rest_auth.urls")),
+    path("api/registration/", include("dj_rest_auth.registration.urls")),
 ]
