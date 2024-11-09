@@ -1,10 +1,9 @@
+import { Button } from '@/components/ui/button'
 import './global.css'
-import { Button } from "@/components/ui/button"
 
 export function App() {
-
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex h-screen items-center justify-center">
       <Button>Button</Button>
     </div>
   )
