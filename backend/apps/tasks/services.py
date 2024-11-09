@@ -7,7 +7,7 @@ from apps.tasks.models import Task
 class TaskService:
     @staticmethod
     def create_task(
-        user,
+        owner,
         title,
         description=None,
         due_date=None,
@@ -15,7 +15,7 @@ class TaskService:
         shared_with=None,
         status=None,
     ):
-        if shared_with and user in shared_with:
+        if shared_with and owner in shared_with:
             raise ValidationError("You cannot share a task with yourself.")
 
         try:
@@ -24,12 +24,12 @@ class TaskService:
                     title=title,
                     description=description,
                     due_date=due_date,
-                    user=user,
+                    owner=owner,
                     category=category,
                 )
 
                 if shared_with:
-                    shared_with = [u for u in shared_with if u != user]
+                    shared_with = [u for u in shared_with if u != owner]
                     task.shared_with.set(shared_with)
 
                 return task
@@ -66,5 +66,5 @@ class TaskService:
         task.delete()
 
     @staticmethod
-    def list_tasks(user):
-        return Task.objects.filter(user=user)
+    def list_tasks(owner):
+        return Task.objects.filter(owner=owner)

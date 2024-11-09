@@ -20,10 +20,10 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop("user", None)
+        self.owner = kwargs.pop("owner", None)
         super().__init__(*args, **kwargs)
-        if self.user:
-            self.filters["shared_with"].queryset = User.objects.filter(id=self.user.id)
+        if self.owner:
+            self.filters["shared_with"].queryset = User.objects.filter(id=self.owner.id)
 
     shared_with = django_filters.CharFilter(
         field_name="shared_with",

@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         for user in users:
             Task.objects.create(
-                title=f"Task-{user}", description="Description", user=user
+                title=f"Task-{user}", description="Description", owner=user
             )
 
         tasks = Task.objects.all()

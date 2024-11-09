@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("id", "name", "created_at", "user")
+        fields = ("id", "name", "created_at", "owner")
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -34,8 +34,8 @@ class TaskSerializer(serializers.ModelSerializer):
             "updated_at",
             "due_date",
             "status",
-            "user",
+            "owner",
             "category",
             "shared_with",
         )
-        read_only_fields = ("id", "created_at", "updated_at", "user")
+        read_only_fields = ("id", "created_at", "updated_at", "owner")

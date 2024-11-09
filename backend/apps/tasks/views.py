@@ -16,8 +16,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     filterset_class = TaskFilter
 
     def get_queryset(self):
-
-        queryset = Task.objects.filter(user=self.request.user).order_by().distinct()
+        queryset = Task.objects.filter(owner=self.request.user).order_by().distinct()
         shared_tasks = self.request.user.shared_tasks.all().order_by().distinct()
         queryset = queryset | shared_tasks
         return queryset
@@ -53,10 +52,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Category.objects.filter(user=self.request.user)
+        return Category.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(owner=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
 

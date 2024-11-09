@@ -12,9 +12,9 @@ def user(db):
 
 @pytest.fixture
 def category(user, db):
-    return baker.make(Category, user=user)
+    return baker.make(Category, owner=user)
 
 
 @pytest.fixture
 def task(user, db):
-    return baker.make(Task, user=user)
+    return baker.make(Task, owner=user)

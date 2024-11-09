@@ -11,20 +11,20 @@ from apps.tasks.models import Category, Task
 class TestCategoryModel:
 
     def test_category_creation(self, user):
-        category = baker.make(Category, user=user)
+        category = baker.make(Category, owner=user)
         assert Category.objects.count() == 1
         assert str(category) == category.name
 
     def test_category_unique_name(self, user):
-        baker.make(Category, name="Category 1", user=user)
+        baker.make(Category, name="Category 1", owner=user)
         with pytest.raises(IntegrityError):
-            baker.make(Category, name="Category 1", user=user)
+            baker.make(Category, name="Category 1", owner=user)
 
 
 @pytest.mark.django_db
 class TestTaskModel:
     def test_task_creation(self, user):
-        task = baker.make(Task, user=user)
+        task = baker.make(Task, owner=user)
         assert Task.objects.count() == 1
         assert str(task) == f"{task.title} - {user.username}"
 
@@ -36,12 +36,12 @@ class TestTaskModel:
         assert task.updated_at > initial_updated_at
 
     def test_already_completed_raises_error(self, user):
-        task = baker.make(Task, status="COMPLETED", user=user)
+        task = baker.make(Task, status="COMPLETED", owner=user)
 
         with pytest.raises(ValidationError):
             task.mark_as_completed()
 
     def test_start(self):
         user = baker.make(User, username="test")
-        task = baker.make(Task, user=user)
+        task = baker.make(Task, owner=user)
         assert task.status == "PENDING"

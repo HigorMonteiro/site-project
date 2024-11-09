@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -9,7 +9,9 @@ from apps.core.models import BaseModel
 
 class Category(BaseModel):
     name = models.CharField(max_length=100, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="categories"
+    )
 
     def __str__(self):
         return self.name
@@ -29,14 +31,18 @@ class Task(BaseModel):
     description = models.TextField(blank=True, null=True)
     due_date = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="PENDING")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks")
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="tasks"
+    )
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks"
     )
-    shared_with = models.ManyToManyField(User, blank=True, related_name="shared_tasks")
+    shared_with = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name="shared_tasks"
+    )
 
     def __str__(self):
-        return f"{self.title} - {self.user.username}"
+        return f"{self.title} - {self.owner}"
 
     def mark_as_completed(self):
         if self.status == "COMPLETED":
