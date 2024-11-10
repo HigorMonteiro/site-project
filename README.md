@@ -12,7 +12,7 @@ A web application for managing tasks, built with Next.js, TypeScript, Tailwind C
 
 ## Technologies Used
 ### Front-end
-- **Next.js** (with TypeScript)
+- **Vite** (with TypeScript)
 - **Tailwind CSS**
 - **ShadCN UI components**
 
