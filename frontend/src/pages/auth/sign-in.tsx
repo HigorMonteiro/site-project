@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { useState } from 'react'
@@ -20,6 +20,7 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignIn() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -44,6 +45,7 @@ export function SignIn() {
         duration: 2000,
         richColors: true,
       })
+      navigate('/')
     } catch (error) {
       toast.error('Credenciais inválidas.')
     }
