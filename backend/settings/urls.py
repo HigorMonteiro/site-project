@@ -27,8 +27,8 @@ router.register(r"tasks", TaskViewSet, basename="task")
 router.register(r"categories", CategoryViewSet, basename="category")
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include(router.urls)),
+    path("api/v1/", include(router.urls)),
     # Auth
-    path("api/", include("dj_rest_auth.urls")),
-    path("api/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/v1/auth/", include("dj_rest_auth.urls")),
+    path("api/v1/auth/registration/", include("dj_rest_auth.registration.urls")),
 ]
