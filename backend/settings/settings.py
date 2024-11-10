@@ -48,7 +48,10 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth",
     "corsheaders",
+    "phonenumber_field",
+
     "apps.tasks",
+    # "apps.account",
 ]
 
 MIDDLEWARE = [
@@ -140,6 +143,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_EMAIL_FIELD = 'email'
+
+ACCOUNT_FORMS = {'signup': 'apps.account.forms.CustomSignupForm'}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
