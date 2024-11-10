@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "dj_rest_auth.registration",
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     "dj_rest_auth",
     "corsheaders",
     "apps.tasks",
@@ -60,7 +60,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
     "allauth.account.middleware.AccountMiddleware",
 ]
 
@@ -159,8 +158,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        "dj_rest_auth.jwt_auth.JWTCookieAuthentication"
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -187,8 +186,8 @@ REST_AUTH = {
 }
 
 AUTHENTICATION_BACKENDS = [
-   'django.contrib.auth.backends.ModelBackend',
-   'allauth.account.auth_backends.AuthenticationBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
