@@ -1,15 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
-import { getProfile } from '@/api/get-profile'
-
-import { ListCheck, Home, Share2, User } from 'lucide-react'
+import { ListCheck, Home, Share2 } from 'lucide-react'
 import { NavLink } from './nav-link'
 import { Separator } from './ui/separator'
+import { AccountMenu } from './ccount-menu'
 
 export function Header() {
-  const { data: profile } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  })
+
   return (
     <div className="border-b">
         <div className="flex h-16 items-center justify-center gap-6 px-6">
@@ -24,11 +19,8 @@ export function Header() {
                   <Share2 className="h-4 w-4" />
                   Tarefas
             </NavLink>
-          <NavLink to="/">
-              <User className="h-4 w-4" />
-              {profile?.username}
-            </NavLink>
-                </nav>
+            <AccountMenu />
+          </nav>
             </div>
         </div>
     )
