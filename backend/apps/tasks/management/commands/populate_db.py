@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
 from apps.tasks.models import Task
+import random
+from faker import Faker
 
 
 class Command(BaseCommand):
@@ -11,15 +13,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         users = User.objects.all()
+        numbers = range(1, 100)
+        fake = Faker()
 
-        for user in users:
+        for _ in numbers:
+            user = random.choice(users)
             Task.objects.create(
-                title=f"Task-{user}", description="Description", owner=user
+            title=fake.sentence(),
+            description=fake.paragraph(),
+            owner=user,
             )
-
         tasks = Task.objects.all()
         for task in tasks:
-            task.shared_with.set(users[1:])
+            task.shared_with.set(users[2:])
             task.save()
         self.stdout.write(
             self.style.SUCCESS("Successfully populated the database with sample data")

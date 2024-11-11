@@ -15,6 +15,7 @@ djangorestframework-simplejwt = "^5.3.1"
 dj-rest-auth = "^7.0.0"
 django-allauth = "^65.2.0"
 requests = "^2.32.3"
+faker = "^30.8.2"
 
 
 [tool.poetry.group.dev.dependencies]
