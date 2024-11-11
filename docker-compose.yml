@@ -1,0 +1,36 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    command: poetry run python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+
+  migrations:
+    build: ./backend
+    container_name: migrations
+    command: poetry run python manage.py migrate
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - backend
+
+  create_users:
+    build: ./backend
+    container_name: create_users
+    command: poetry run python manage.py populate_users
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - migrations
+
+  populate:
+    build: ./backend
+    container_name: populate
+    command: poetry run python manage.py populate_db
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - migrations

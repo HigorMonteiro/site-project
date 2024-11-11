@@ -25,7 +25,7 @@ class Command(BaseCommand):
             )
         tasks = Task.objects.all()
         for task in tasks:
-            task.shared_with.set(users[2:])
+            task.shared_with.set(users[1:])
             task.save()
         self.stdout.write(
             self.style.SUCCESS("Successfully populated the database with sample data")

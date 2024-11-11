@@ -48,10 +48,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth",
     "corsheaders",
-    "phonenumber_field",
 
     "apps.tasks",
-    # "apps.account",
 ]
 
 MIDDLEWARE = [
