@@ -24,11 +24,34 @@ A web application for managing tasks, built with Next.js, TypeScript, Tailwind C
 
 ### Prerequisites
 - Node.js and npm
+- Pnpm
 - Python and poetry
 - Docker and Docker Compose
 
 ### Installation
-1. **Clone the repository**:
-   ```bash
-   git clone git@github.com:HigorMonteiro/site-project.git
-   cd site-project
+
+1 **Clone the repository**:
+```bash
+git clone git@github.com:HigorMonteiro/site-project.git
+cd site-project
+```
+
+2 **Run backend**
+  ```bash
+   docker compose up --build
+  ```
+  http://localhost:8000/
+
+3 **Run frontend**
+  ```bash
+   cd fronend/
+   pnpm install && pnpm run dev
+  ```
+  http://localhost:5173/
+
+4 **Login frontend**
+```bash
+   email: pedro@gmail.com
+   password: asdf1234
+```
+Some users were created using the command, `python manage.py populate_users`.
